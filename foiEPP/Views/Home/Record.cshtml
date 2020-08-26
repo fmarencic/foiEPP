@@ -1,0 +1,14 @@
+﻿@{
+    var title = ViewBag.Title;
+    var image = ViewBag.Image;
+}
+<h2>@title</h2>
+
+<div class="row">
+    <div class="col-md-4">
+        <img class="img-responsive" src="@Url.Content("~/images/uploaded/" + @image)" alt="Class image">
+    </div>
+    <div class="col-md-8">
+        
+    </div>
+</div>
