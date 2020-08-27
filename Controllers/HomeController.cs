@@ -61,8 +61,17 @@ namespace foiEPP.Controllers
                 }
             }
             ViewBag.Title = facClass.Name + " - " + room.Name;
+            ViewBag.People = new List<RecognizedStudentsViewModel>();
             return View();
         }
+
+        [HttpPost]
+        public IActionResult AddStudents(UserViewModel studentsPassed)
+        {
+            return View();
+        }
+
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

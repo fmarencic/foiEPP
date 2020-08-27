@@ -1,14 +1,89 @@
-﻿@{
+﻿@model foiEPP.Viewmodels.UserViewModel
+@{
     var title = ViewBag.Title;
     var image = ViewBag.Image;
 }
 <h2>@title</h2>
 
 <div class="row">
-    <div class="col-md-4">
-        <img class="img-responsive" src="@Url.Content("~/images/uploaded/" + @image)" alt="Class image">
+    <div class="col-md-4 border__right">
+        <img class="uploadedImage" src="@Url.Content("~/images/uploaded/" + @image)" alt="Class image">
     </div>
     <div class="col-md-8">
-        
+        <table class="table table-sm table-striped table-hover border-bottom">
+            <thead>
+                <tr>
+                    <th class="d-none d-lg-table-cell">
+                        Slika
+                    </th>
+                    <th>
+                        Ime
+                    </th>
+                    <th>
+                        Prezime
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if ((ViewBag.People as List<RecognizedStudentsViewModel>).Count() > 0)
+                {
+                    foreach (var student in ViewBag.People)
+                    {
+                        <tr>
+                            <td class="d-none d-lg-table-cell">
+                                @student.Image
+                            </td>
+                            <td>
+                                @student.FirstName
+                            </td>
+                            <td>
+                                @student.LastName
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="3" class="text-center">
+                            Nije prepoznat nijedan student
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <br />
+        @using (Html.BeginForm("AddStudents", "Home", FormMethod.Post))
+        {
+            <table class="table table-sm table-striped table-hover border-bottom">
+                <thead>
+                    <tr>
+                        <th class="d-none d-lg-table-cell">
+                            Dodaj
+                        </th>
+                        <th>
+                            Ime
+                        </th>
+                        <th>
+                            Prezime
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="addHere">
+                    <tr>
+                        <td class="d-none d-lg-table-cell">
+                            <button type="button" class="addNew btn btn-light">Dodaj zapis</button>
+                        </td>
+                        <td>
+                            <input name="Students[0].FirstName" type="text" class="name form-control" />
+                        </td>
+                        <td>
+                            <input name="Students[0].LastName" type="text" class="name form-control" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <button type="submit"class="btn btn-primary">Dodaj studente</button>
+        }
     </div>
 </div>
