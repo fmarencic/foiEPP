@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using foiEPP.Data;
+using foiEPP.Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -17,6 +19,7 @@ namespace foiEPP
     {
         public Startup(IConfiguration configuration)
         {
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             Configuration = configuration;
         }
 
@@ -27,6 +30,8 @@ namespace foiEPP
         {
             services.AddDbContext<FacultyContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("FacultyConnection")));
+
+            services.AddScoped<FaceRecognitionHelper>();
 
             services.AddControllersWithViews();
 

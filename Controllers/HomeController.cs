@@ -10,6 +10,7 @@ using foiEPP.Models;
 using foiEPP.Data;
 using foiEPP.Viewmodels;
 using System.IO;
+using foiEPP.Helpers;
 
 namespace foiEPP.Controllers
 {
@@ -17,15 +18,18 @@ namespace foiEPP.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly FacultyContext _context;
+        private FaceRecognitionHelper faceRecognitionHelper;
 
         public HomeController(ILogger<HomeController> logger, FacultyContext context)
         {
             _logger = logger;
             _context = context;
+            faceRecognitionHelper = new FaceRecognitionHelper(context);
         }
 
         public IActionResult Index()
         {
+            // faceRecognitionHelper.AddNewFaces();
             if (!HttpContext.Session.Keys.Contains("email"))
             {
                 return RedirectToAction("Login", "Login");
@@ -50,6 +54,7 @@ namespace foiEPP.Controllers
         {
             Room room = _context.Rooms.Where(r => r.ID == roomID).FirstOrDefault();
             Class facClass = _context.Classes.Where(r => r.ID == classID).FirstOrDefault();
+            List<StudentWithImageViewModel> recognizedStudents = new List<StudentWithImageViewModel>();
             if (image != null && image.Length > 0)
             {
                 var fileName = Path.GetFileName(image.FileName);
@@ -59,9 +64,22 @@ namespace foiEPP.Controllers
                 {
                     await image.CopyToAsync(fileStream);
                 }
+                recognizedStudents = faceRecognitionHelper.RecognizeStudents(filePath);
             }
+            DateTime current = DateTime.Now;
+            foreach(var student in recognizedStudents)
+            {
+                Record record = new Record();
+                record.RoomID = roomID;
+                record.ClassID = classID;
+                record.UserID = student.Student.ID;
+                record.Time = current;
+                record.Image = student.Image;
+                _context.Records.Add(record);
+            }
+            _context.SaveChangesAsync();
             ViewBag.Title = facClass.Name + " - " + room.Name;
-            ViewBag.People = new List<RecognizedStudentsViewModel>();
+            ViewBag.People = recognizedStudents;
             return View();
         }
 

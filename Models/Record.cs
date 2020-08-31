@@ -12,7 +12,7 @@ namespace foiEPP.Models
         public int RoomID { get; set; }
         public int UserID { get; set; }
         public DateTime Time { get; set; }
-        public string Encoding { get; set; }
+        public byte[] Image { get; set; }
         public Class Class { get; set; }
         public Room Room { get; set; }
         public User User { get; set; }

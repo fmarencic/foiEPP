@@ -25,19 +25,19 @@
                 </tr>
             </thead>
             <tbody>
-                @if ((ViewBag.People as List<RecognizedStudentsViewModel>).Count() > 0)
+                @if ((ViewBag.People as List<StudentWithImageViewModel>).Count() > 0)
                 {
                     foreach (var student in ViewBag.People)
                     {
                         <tr>
                             <td class="d-none d-lg-table-cell">
-                                @student.Image
+                                <img src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(@student.Image))" style="height:50px;" />
                             </td>
                             <td>
-                                @student.FirstName
+                                @student.Student.FirstName
                             </td>
                             <td>
-                                @student.LastName
+                                @student.Student.LastName
                             </td>
                         </tr>
                     }

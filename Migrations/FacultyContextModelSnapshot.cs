@@ -44,8 +44,8 @@ namespace foiEPP.Migrations
                     b.Property<int>("ClassID")
                         .HasColumnType("int");
 
-                    b.Property<string>("Encoding")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<byte[]>("Image")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<int>("RoomID")
                         .HasColumnType("int");
@@ -95,7 +95,13 @@ namespace foiEPP.Migrations
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("FirstNameEncoded")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastNameEncoded")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
@@ -140,8 +146,8 @@ namespace foiEPP.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Encoding")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<byte[]>("Encoding")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<int>("UserID")
                         .HasColumnType("int");
