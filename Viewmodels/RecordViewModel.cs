@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace foiEPP.Viewmodels
 {
-    public class UserViewModel
+    public class RecordViewModel
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
         public DateTime Time { get; set; }
         public int RoomID { get; set; }
         public int ClassID { get; set; }
-        public List<User> Students { get; set; }
+        public List<Room> Rooms { get; set; }
+        public List<Class> Classes { get; set; }
+        public List<Record> Records { get; set; }
     }
 }

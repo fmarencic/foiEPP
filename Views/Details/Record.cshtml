@@ -1,0 +1,79 @@
+﻿@model foiEPP.Viewmodels.RecordViewModel
+@{
+
+}
+<h2>Evidencije</h2>
+<br />
+<form method="post" asp-controller="Details" asp-action="Record">
+    <div class="text-center">
+        @Html.DropDownListFor(model => model.ClassID, new SelectList(Model.Classes, "ID", "Name"), "- Odaberite kolegij -", new { @class = "form-control", name = "classID" })
+        <br />
+        @Html.DropDownListFor(model => model.RoomID, new SelectList(Model.Rooms, "ID", "Name"), "- Odaberite dvoranu -", new { @class = "form-control", name = "roomID" })
+    </div>
+    <br />
+    <input type="submit" value="Odaberi" class="btn btn-primary">
+</form>
+<br />
+@if (Model.Records != null)
+{
+    <form method="post" asp-controller="Details" asp-action="Record">
+        <div class="text-center">
+            @Html.DropDownListFor(model => model.Time, new SelectList(Model.Records, "ID", "Time"), "- Odaberite datum predavanja -", new { @class = "form-control", name = "time" })
+        </div>
+        <br />
+        <input type="submit" value="Odaberi" class="btn btn-primary">
+    </form>
+}
+<hr />
+@if ((ViewBag.Students as List<StudentWithImageViewModel>) != null)
+{
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-sm table-striped table-hover border-bottom">
+                <thead>
+                    <tr>
+                        <th class="d-none d-lg-table-cell">
+                            Slika
+                        </th>
+                        <th>
+                            Ime
+                        </th>
+                        <th>
+                            Prezime
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if ((ViewBag.Students as List<StudentWithImageViewModel>).Count() > 0)
+                    {
+                        foreach (var student in ViewBag.Students)
+                        {
+                            <tr>
+                                <td class="d-none d-lg-table-cell">
+                                    @if(@student.Image != null){
+                                        <img src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(@student.Image))" style="height:50px;" />
+                                    }
+                                </td>
+                                <td>
+                                    @student.Student.FirstName
+                                </td>
+                                <td>
+                                    @student.Student.LastName
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="3" class="text-center">
+                                Nije evidentiran nijedan student
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <br />
+        </div>
+    </div>
+}

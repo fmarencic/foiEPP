@@ -2,9 +2,13 @@
 @{
     var title = ViewBag.Title;
     var image = ViewBag.Image;
+    var roomID = ViewBag.RoomID;
+    var classID = ViewBag.ClassID;
+    var time = ViewBag.Time;
 }
 <h2>@title</h2>
 
+<br/>
 <div class="row">
     <div class="col-md-4 border__right">
         <img class="uploadedImage" src="@Url.Content("~/images/uploaded/" + @image)" alt="Class image">
@@ -83,6 +87,11 @@
                     </tr>
                 </tbody>
             </table>
+            <div style="display: none;">
+                <input name="RoomID" type="text" class="form-control" value="@roomID" />
+                <input name="ClassID" type="text" class="form-control" value="@classID" />
+                <input name="Time" type="text" class="form-control" value="@time" />
+            </div>
             <button type="submit"class="btn btn-primary">Dodaj studente</button>
         }
     </div>

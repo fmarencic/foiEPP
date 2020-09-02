@@ -67,7 +67,8 @@ namespace foiEPP.Controllers
                 recognizedStudents = faceRecognitionHelper.RecognizeStudents(filePath);
             }
             DateTime current = DateTime.Now;
-            foreach(var student in recognizedStudents)
+            current = new DateTime(current.Year, current.Month, current.Day, current.Hour, current.Minute, current.Second, current.Kind);
+            foreach (var student in recognizedStudents)
             {
                 Record record = new Record();
                 record.RoomID = roomID;
@@ -78,6 +79,9 @@ namespace foiEPP.Controllers
                 _context.Records.Add(record);
             }
             _context.SaveChangesAsync();
+            ViewBag.Time = current;
+            ViewBag.RoomID = room.ID;
+            ViewBag.ClassID = facClass.ID;
             ViewBag.Title = facClass.Name + " - " + room.Name;
             ViewBag.People = recognizedStudents;
             return View();
@@ -86,10 +90,19 @@ namespace foiEPP.Controllers
         [HttpPost]
         public IActionResult AddStudents(UserViewModel studentsPassed)
         {
-            return View();
+            foreach (var student in studentsPassed.Students)
+            {
+                User newStudent = _context.Users.Where(st => st.FirstName == student.FirstName && st.LastName == student.LastName).First();
+                Record newRecord = new Record();
+                newRecord.ClassID = studentsPassed.ClassID;
+                newRecord.RoomID = studentsPassed.RoomID;
+                newRecord.Time = studentsPassed.Time;
+                newRecord.UserID = newStudent.ID;
+                _context.Records.Add(newRecord);
+            }
+            _context.SaveChanges();
+            return RedirectToAction("Index", "Home");
         }
-
-
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

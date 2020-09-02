@@ -28,8 +28,9 @@ namespace foiEPP.Controllers
             {
                 if (dbUser.Where(u => u.Password == user.Password).Any())
                 {
+                    User logged = dbUser.First();
                     HttpContext.Session.SetString("email", user.Email);
-                    HttpContext.Session.SetString("name", user.FirstName + " " + user.LastName);
+                    HttpContext.Session.SetString("name", logged.FirstName + " " + logged.LastName);
                     HttpContext.Session.SetString("type", dbUser.FirstOrDefault().UserTypeID.ToString());
                     return RedirectToAction("Index", "Home");
                 }
