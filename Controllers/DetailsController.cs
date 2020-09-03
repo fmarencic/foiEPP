@@ -18,6 +18,10 @@ namespace foiEPP.Controllers
             _context = context;
         }
 
+        /**
+         * Loads view for details path
+         * Shows classes that logged user has and gets rooms
+         */
         [HttpGet]
         public IActionResult Record()
         {
@@ -29,6 +33,11 @@ namespace foiEPP.Controllers
             return View(viewData);
         }
 
+        /**
+         * Function triggered by post call.
+         * Gets class name, room name and time when record was written,
+         * returns list of students that were recorded
+         */
         [HttpPost]
         [ActionName("Record")]
         public IActionResult RecordPost(int classID, int roomID, int time)
@@ -60,6 +69,9 @@ namespace foiEPP.Controllers
             return View(viewData);
         }
 
+        /**
+         * Gets users classes
+         */
         private List<Class> GetClasses(int userID)
         {
             List<int> classIDs = _context.UserClasses.Where(uc => uc.UserID == userID).Select(s => s.ClassID).ToList();
@@ -67,6 +79,9 @@ namespace foiEPP.Controllers
             return classes;
         }
 
+        /**
+         * Gets faculty rooms
+         */
         private List<Room> GetRooms()
         {
             List<Room> rooms = _context.Rooms.ToList();

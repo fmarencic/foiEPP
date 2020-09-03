@@ -18,7 +18,7 @@
 {
     <form method="post" asp-controller="Details" asp-action="Record">
         <div class="text-center">
-            @Html.DropDownListFor(model => model.Time, new SelectList(Model.Records, "ID", "Time"), "- Odaberite datum predavanja -", new { @class = "form-control", name = "time" })
+            @Html.DropDownListFor(model => model.Time, new SelectList(Model.Records, "ID", "Time"), "- Odaberite datum evidencije -", new { @class = "form-control", name = "time" })
         </div>
         <br />
         <input type="submit" value="Odaberi" class="btn btn-primary">

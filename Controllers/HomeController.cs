@@ -27,6 +27,10 @@ namespace foiEPP.Controllers
             faceRecognitionHelper = new FaceRecognitionHelper(context);
         }
 
+        /**
+         * Loads after login.
+         * Checks if user is logged in and checks users type and redirects depend on it.
+         */
         public IActionResult Index()
         {
             // faceRecognitionHelper.AddNewFaces();
@@ -34,21 +38,22 @@ namespace foiEPP.Controllers
             {
                 return RedirectToAction("Login", "Login");
             }
-            if(HttpContext.Session.GetString("type") == "2")
+            if (HttpContext.Session.GetString("type") == "1")
             {
                 ClassesRoomsViewModel viewData = new ClassesRoomsViewModel();
                 viewData.Rooms = GetRooms();
                 viewData.Classes = GetClasses();
                 return View(viewData);
             }
+            else if(HttpContext.Session.GetString("type") == "2")
+                return RedirectToAction("Record", "Details");
             return View();
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
+        /**
+         * Gets class, room and image to recognize students from.
+         * Calls function for image recognition and stores students in DB.
+         */
         [HttpPost]
         public async Task<IActionResult> Record(int classID, int roomID, IFormFile image)
         {
@@ -87,6 +92,9 @@ namespace foiEPP.Controllers
             return View();
         }
 
+        /**
+         * Adds non-recognized students to record.
+         */
         [HttpPost]
         public IActionResult AddStudents(UserViewModel studentsPassed)
         {
@@ -110,12 +118,18 @@ namespace foiEPP.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        /**
+         * Gets all classes
+         */
         private List<Class> GetClasses()
         {
             List<Class> classes = _context.Classes.ToList();
             return classes;
         }
 
+        /**
+         * Gets all rooms
+         */
         private List<Room> GetRooms()
         {
             List<Room> rooms = _context.Rooms.ToList();

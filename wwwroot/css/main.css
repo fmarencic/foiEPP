@@ -425,3 +425,15 @@ iframe {
 
 /*//////////////////////////////////////////////////////////////////
 [ Custom ]*/
+
+.foi-logo {
+    width: 50px;
+}
+
+.logo-text {
+    display: inline-block;
+    margin-bottom: 0;
+    line-height: 36px;
+    font-size: 30px;
+    font-weight: 600;
+}

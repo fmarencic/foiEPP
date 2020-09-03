@@ -25,6 +25,9 @@ namespace foiEPP.Helpers
             _context = context;
         }
 
+        /**
+         * Recognizes students from sent image path
+         */
         public List<StudentWithImageViewModel> RecognizeStudents(string imagePath)
         {
             List<StudentWithImageViewModel> recognizedStudents = new List<StudentWithImageViewModel>();
@@ -75,6 +78,9 @@ namespace foiEPP.Helpers
             return recognizedStudents;
         }
 
+        /**
+         * Crops faces from image
+         */
         private Bitmap Crop(string myImage, int bottom, int left, int right, int top)
         {
             Bitmap croppedBitmap = new Bitmap(myImage);
@@ -84,6 +90,9 @@ namespace foiEPP.Helpers
             return croppedBitmap;
         }
 
+        /**
+         * Reads images from folder and encodes detected faces in DB
+         */
         public bool AddNewFaces()
         {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);

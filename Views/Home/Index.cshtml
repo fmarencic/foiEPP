@@ -6,14 +6,14 @@
 <h2>Nova evidencija</h2>
 <br />
 <br />
-<br />
 <form method="post" asp-controller="Home" asp-action="Record" enctype="multipart/form-data">
-    <div class="text-center">
+    <div>
         @Html.DropDownListFor(model => model.ClassID, new SelectList(Model.Classes, "ID", "Name"), "- Odaberite kolegij -", new { @class = "form-control", name = "classID" })
         <br />
         @Html.DropDownListFor(model => model.RoomID, new SelectList(Model.Rooms, "ID", "Name"), "- Odaberite dvoranu -", new { @class = "form-control", name = "roomID" })
         <br />
-        <input type="file" class="form-control" name="image" />
+        <label style="text-align:start" for="fileInput">Odaberite sliku</label>
+        <input type="file" class="form-control" name="image" id="fileInput" />
     </div>
     <br />
     <input type="submit" value="Odaberi" class="btn btn-primary">

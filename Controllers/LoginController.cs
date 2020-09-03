@@ -16,10 +16,18 @@ namespace foiEPP.Controllers
         {
             _context = context;
         }
+
+        /**
+         * Loads login view
+         */
         public IActionResult Login()
         {
             return View();
         }
+
+        /**
+         * Validates sent login data and handles irregularities
+         */
         [HttpPost]
         public IActionResult Validate(User user)
         {
@@ -46,6 +54,10 @@ namespace foiEPP.Controllers
                 return View("Login");
             }
         }
+
+        /**
+         * Logs user out
+         */
         public IActionResult Logout()
         {
             HttpContext.Session.Remove("email");

@@ -81,3 +81,15 @@ body {
 .border__right {
     border-right: 1px solid #D3D3D3;
 }
+
+.foi-logo {
+    width: 50px;
+}
+
+.logo-text {
+    display: inline-block;
+    margin-bottom: 0;
+    line-height: 36px;
+    font-size: 30px;
+    font-weight: 600;
+}
