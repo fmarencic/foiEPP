@@ -83,7 +83,7 @@ namespace foiEPP.Controllers
                 record.Image = student.Image;
                 _context.Records.Add(record);
             }
-            _context.SaveChangesAsync();
+            _context.SaveChanges();
             ViewBag.Time = current;
             ViewBag.RoomID = room.ID;
             ViewBag.ClassID = facClass.ID;

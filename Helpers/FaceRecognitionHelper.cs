@@ -15,7 +15,7 @@ namespace foiEPP.Helpers
 {
     public class FaceRecognitionHelper
     {
-        const double tolerance = 0.6d;
+        const double tolerance = 0.5d;
 
         string modelDirectory;
         private readonly FacultyContext _context;
@@ -52,10 +52,10 @@ namespace foiEPP.Helpers
                 using (FaceRecognitionDotNet.Image image = FaceRecognition.LoadImageFile(imagePath))
                 {
                     IEnumerable<Location> locations = fr.FaceLocations(image);
-                    IEnumerable<FaceEncoding> encodings = fr.FaceEncodings(image, locations);
-                    foreach(var encoding in encodings)
+                    List<FaceEncoding> encodings = fr.FaceEncodings(image, locations).ToList();
+                    for(int j = 0; j < encodings.Count(); j++)
                     {
-                        List<bool> matches = FaceRecognition.CompareFaces(knownEncodings, encoding, tolerance).ToList();
+                        List<bool> matches = FaceRecognition.CompareFaces(knownEncodings, encodings[j], tolerance).ToList();
                         if (matches.Contains(true))
                         {
                             for(int i = 0; i < matches.Count(); i++)
@@ -63,7 +63,7 @@ namespace foiEPP.Helpers
                                 if (matches[i])
                                 {
                                     StudentWithImageViewModel student = new StudentWithImageViewModel();
-                                    Bitmap face = Crop(imagePath, locations.ToList()[i].Bottom, locations.ToList()[i].Left, locations.ToList()[i].Right, locations.ToList()[i].Top);
+                                    Bitmap face = Crop(imagePath, locations.ToList()[j].Bottom, locations.ToList()[j].Left, locations.ToList()[j].Right, locations.ToList()[j].Top);
                                     ImageConverter converter = new ImageConverter();
                                     student.Image = (byte[])converter.ConvertTo(face, typeof(byte[]));
                                     student.Student = _context.Users.Where(student => student.ID == students[i].UserID).First();
